@@ -3,23 +3,149 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
-    width: 100%;
-    border: 2px solid blue;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    height: 100vh;
     overflow: hidden;
 }
-h1 {
-    transform: translateX(40%);
-    font-family: impart;
+
+#game-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
-#canvas {
-    background: rgba(1, 0, 0, 0.1);
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+}
+
+#game-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.game-half {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #333;
+}
+
+#deal-area {
+    background-color: #e0e0e0;
+}
+
+#challanger-area {
+    background-color: #d0d0d0;
+}
+
+#table-background {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 40%;
+    background-color: #8B4513;
+    border: 2px solid #654321;
+    z-index: 1;
+}
+
+.slots {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+.card {
+    width: 60px;
+    height: 90px;
+    background-color: white;
+    border: 1px solid #333;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    position: absolute;
+    transition: all 0.5s ease;
+}
+
+#deck {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 60px;
+    height: 90px;
+    background-color: #333;
+    border-radius: 5px;
+    z-index: 2;
+}
+
+#dealt-cards {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#controls {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+}
+
+button {
+    padding: 10px;
+    margin: 5px;
+    background-color: #555;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #777;
+}
+
+.overlay {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
 }
-img {
+
+.overlay.hidden {
     display: none;
+}
+
+#stats {
+    padding: 10px;
+    background-color: #333;
+    color: white;
 }

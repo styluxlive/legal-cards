@@ -1,16 +1,90 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Legal Cards</title>
-        <link rel="stylesheet" href="lib/style.css" type="text/css"/>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-
-        <h1>Kukesi Games</h1>
-        <canvas id="canvas"></canvas>
-        <img src="lib/cardImages.png" id="cardImages" alt="images" />
-        <script src="lib/kukesiCards.js" type="module"></script>
-    </body>
+<html lang="en">
+<head>
+    <title>Ckrit MaCard - Interactive Card Game</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ckrit MaCard by Jabulani Mdluli - Interactive 52-card game with multiple modes.">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="lib/style.css">
+</head>
+<body>
+    <div id="game-container">
+        <header>
+            <h1>Ckrit MaCard</h1>
+            <div id="user-info">
+                <span id="username">Guest</span>
+                <span id="tokens">Tokens: 100</span>
+            </div>
+        </header>
+        <div id="mode-selection" class="overlay">
+            <h2>Select Game Mode</h2>
+            <button id="practice-mode">Practice (Offline)</button>
+            <button id="reality-mode">Reality (Online)</button>
+            <button id="corner-mode">Corner (Local)</button>
+        </div>
+        <div id="auth-overlay" class="overlay hidden">
+            <h2>Sign In</h2>
+            <input type="text" id="username-input" placeholder="Username">
+            <input type="password" id="password-input" placeholder="Password">
+            <button id="login-btn">Login</button>
+            <button id="register-btn">Register</button>
+            <button id="guest-btn">Play as Guest</button>
+        </div>
+        <div id="game-area">
+            <div id="deal-area" class="game-half">
+                <h3>DEAL Area (Dealer Wins)</h3>
+                <div id="dealer-slots" class="slots"></div>
+            </div>
+            <div id="table-background">
+                <div id="deck"></div>
+                <div id="dealt-cards"></div>
+            </div>
+            <div id="challanger-area" class="game-half">
+                <h3>CHALLANGER Area (Challanger Wins)</h3>
+                <div id="player-slots" class="slots"></div>
+            </div>
+        </div>
+        <div id="controls">
+            <div id="deal-controls">
+                <button id="shuffle-btn">Shuffle</button>
+                <button id="deal-btn">Deal Card</button>
+                <button id="faster-btn">Faster</button>
+            </div>
+            <div id="challanger-controls">
+                <button id="small-top-btn">Small Top</button>
+                <button id="small-bottom-btn">Small Bottom</button>
+                <button id="small-center-btn">Small Center</button>
+                <select id="request-rank">
+                    <option value="">Select Rank</option>
+                    <option value="A">A</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="J">J</option>
+                    <option value="Q">Q</option>
+                    <option value="K">K</option>
+                </select>
+                <button id="request-card-btn">Request Card</button>
+            </div>
+            <div id="watch-controls">
+                <button id="win-btn">WIN</button>
+                <button id="loss-btn">LOSS</button>
+            </div>
+        </div>
+        <div id="stats">
+            <h3>Stats</h3>
+            <p>Wins: <span id="wins">0</span></p>
+            <p>Losses: <span id="losses">0</span></p>
+            <p>Interactions: <span id="interactions">0</span></p>
+        </div>
+    </div>
+    <script type="module" src="lib/game.js"></script>
+</body>
 </html>
