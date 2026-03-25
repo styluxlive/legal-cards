@@ -18,10 +18,34 @@
             </div>
         </header>
         <div id="mode-selection" class="overlay">
-            <h2>Select Game Mode</h2>
+            <h2>Ckrit MaCard</h2>
+            <p>Interactive Card Game by Jabulani Mdluli</p>
             <button id="practice-mode">Practice (Offline)</button>
             <button id="reality-mode">Reality (Online)</button>
             <button id="corner-mode">Corner (Local)</button>
+            <button id="tutorial-btn">Tutorial</button>
+            <button id="settings-btn">Settings</button>
+        </div>
+        <div id="tutorial-overlay" class="overlay hidden">
+            <h2>Tutorial</h2>
+            <p>1. Select a mode.</p>
+            <p>2. In Practice, dealer shuffles every 5s until you request.</p>
+            <p>3. Use Small actions to manipulate deck.</p>
+            <p>4. Request a card rank.</p>
+            <p>5. Deal cards; win if requested lands in your area.</p>
+            <button id="close-tutorial">Close</button>
+        </div>
+        <div id="settings-overlay" class="overlay hidden">
+            <h2>Settings</h2>
+            <label>Shuffle Interval (s): <input type="number" id="shuffle-interval" value="5" min="1" max="10"></label>
+            <label>Theme: <select id="theme-select">
+                <option value="default">Default</option>
+                <option value="dark">Dark</option>
+                <option value="light">Light</option>
+            </select></label>
+            <label>AI Enabled: <input type="checkbox" id="ai-enabled" checked></label>
+            <button id="save-settings">Save</button>
+            <button id="close-settings">Close</button>
         </div>
         <div id="auth-overlay" class="overlay hidden">
             <h2>Sign In</h2>
@@ -84,7 +108,74 @@
             <p>Losses: <span id="losses">0</span></p>
             <p>Interactions: <span id="interactions">0</span></p>
         </div>
+        <div id="confetti"></div>
     </div>
     <script type="module" src="lib/game.js"></script>
+    <script>
+        // Additional UI handlers
+        document.getElementById('tutorial-btn').addEventListener('click', () => {
+            document.getElementById('tutorial-overlay').classList.remove('hidden');
+        });
+        document.getElementById('close-tutorial').addEventListener('click', () => {
+            document.getElementById('tutorial-overlay').classList.add('hidden');
+        });
+        document.getElementById('settings-btn').addEventListener('click', () => {
+            document.getElementById('settings-overlay').classList.remove('hidden');
+        });
+        document.getElementById('close-settings').addEventListener('click', () => {
+            document.getElementById('settings-overlay').classList.add('hidden');
+        });
+        document.getElementById('save-settings').addEventListener('click', () => {
+            const interval = document.getElementById('shuffle-interval').value;
+            const theme = document.getElementById('theme-select').value;
+            const ai = document.getElementById('ai-enabled').checked;
+            localStorage.setItem('shuffleInterval', interval);
+            localStorage.setItem('theme', theme);
+            localStorage.setItem('aiEnabled', ai);
+            // Apply theme
+            document.body.className = theme;
+            document.getElementById('settings-overlay').classList.add('hidden');
+        });
+        // Load settings
+        document.getElementById('shuffle-interval').value = localStorage.getItem('shuffleInterval') || 5;
+        document.getElementById('theme-select').value = localStorage.getItem('theme') || 'default';
+        document.getElementById('ai-enabled').checked = localStorage.getItem('aiEnabled') !== 'false';
+        document.body.className = localStorage.getItem('theme') || 'default';
+
+        // Effects
+        function playSound(frequency, duration) {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            oscillator.frequency.value = frequency;
+            oscillator.type = 'sine';
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+
+        function showConfetti() {
+            const confetti = document.getElementById('confetti');
+            confetti.style.display = 'block';
+            for (let i = 0; i < 50; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                piece.style.animationDelay = Math.random() * 3 + 's';
+                confetti.appendChild(piece);
+            }
+            setTimeout(() => {
+                confetti.style.display = 'none';
+                confetti.innerHTML = '';
+            }, 3000);
+        }
+
+        // Expose for game.js
+        window.playSound = playSound;
+        window.showConfetti = showConfetti;
+    </script>
 </body>
 </html>

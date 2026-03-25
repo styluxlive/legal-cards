@@ -33,3 +33,30 @@ Open `index.html` in a modern browser. For PWA, install from browser.
 ### Development
 
 Built with vanilla JavaScript, no external libraries.
+
+## Run Locally (Development)
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Start the static server with WebSocket stub:
+
+```bash
+npm start
+# then open http://localhost:3000 in your browser
+```
+
+3. Run deck smoke tests (no external test framework required):
+
+```bash
+npm run test
+```
+
+Notes:
+- `server.js` serves the project directory and provides a minimal WebSocket endpoint for `Reality` mode stubs.
+- If `npm install` is not possible in your environment, you can still open `index.html` directly in a browser for Practice mode.
+
+If you'd like, I can run `npm install` and execute the smoke tests here; let me know to proceed.

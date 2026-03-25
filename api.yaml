@@ -1,0 +1,83 @@
+openapi: 3.0.3
+info:
+  title: Ckrit MaCard API
+  description: REST and WebSocket API for deterministic card game with token staking
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+    description: Local development
+paths:
+  /games:
+    post:
+      summary: Create new game instance
+      operationId: createGame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mode:
+                  type: string
+                  enum: [practice, reality, corner]
+                  default: practice
+                stake:
+                  type: integer
+      responses:
+        201:
+          description: Game created
+  /games/{gameId}/join:
+    post:
+      summary: Join existing game
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                seat:
+                  type: string
+                  enum: [dealer, challenger]
+      responses:
+        200:
+          description: Joined
+  /games/{gameId}/action:
+    post:
+      summary: Submit game action
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                action:
+                  type: string
+                  enum: [deal, small_top, small_bottom, small_center, shuffle, request_card]
+      responses:
+        202:
+          description: Action queued
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
